@@ -1,0 +1,6 @@
+[plugin]
+  moduleName = "github.com/zaffaridam/tracing-traefik"
+  version = "v0.1"
+  description = "Um plugin middleware para Traefik que adiciona TraceID e SpanID a todas as requisições HTTP."
+  documentation = "https://github.com/zaffaridam/tracing-traefik/README.md"
+

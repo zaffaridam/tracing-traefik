@@ -1,0 +1,93 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+
+log:
+  level: DEBUG 
+  filePath: ""
+  format: json
+
+accessLog:
+  format: json
+#  filePath: "/etc/traefik/log/access.log"
+  bufferingSize: 100
+  fields:
+    defaultMode: keep
+    headers:
+      names:
+        Cf-Connecting-Ip: keep
+        Cf-Ipcity: keep
+        Cf-Ipcontinent: keep
+        Cf-Ipcountry: keep
+        Cf-Iplatitude: keep
+        Cf-Iplongitude: keep
+        Cf-Ray: keep
+        Cf-Region: keep
+        Cf-Region-Code: keep
+        Cf-Timezone: keep
+        User-Agent: keep
+        X-Forwarded-Host: keep
+        X-Forwarded-Port: keep
+        X-Forwarded-Proto: keep
+        X-Forwarded-Server: keep
+        X-Real-Ip: keep
+        X-Request-ID: keep
+        X-Trace-ID: keep
+        X-Span-ID: keep
+
+
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  kubernetescrd:
+
+  file:
+     directory: /etc/traefik/
+     watch: true
+
+metrics:
+  prometheus:
+    addRoutersLabels: true
+    addServicesLabels: true
+    addEntryPointsLabels: true
+    entryPoint: metrics
+  otlp:
+    addRoutersLabels: true
+    addServicesLabels: true
+    addEntryPointsLabels: true
+    pushInterval: 60s
+    http:
+      endpoint: "http://79.143.178.183:4318/v1/metrics"
+      tls:
+        insecureSkipVerify: true
+
+
+tracing:
+  otlp:
+    http:
+      endpoint: "http://79.143.178.183:4318/v1/traces"
+      tls:
+        insecureSkipVerify: true
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+  metrics:
+    address: ":8082"
+  grpc:
+    address: ":50051"
+    http2:
+  grpc-maiscoop:
+    address: ":50061"
+    http2:
+
+# Exemplo em traefik.yml
+experimental:
+  localPlugins:
+    tracing-traefik:
+      moduleName: "/etc/traefik/dynamic/tracing-traefik.so"
+

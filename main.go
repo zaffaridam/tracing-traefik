@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/traefik/traefik/v3/pkg/plugins"
+//	"github.com/traefik/traefik/v3/pkg/plugins"
 )
 
 // Config estrutura para a configuração do plugin.
@@ -44,7 +44,3 @@ func (a *addIDs) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	a.next.ServeHTTP(rw, req)
 }
 
-// Register o plugin dentro do Traefik.
-func init() {
-	plugins.Register("tracing-traefik", New)
-}

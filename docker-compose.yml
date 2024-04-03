@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik:v3.0.0-rc3
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "./traefik.yaml:/etc/traefik/traefik.yaml"
+      - "./tracing-traefik.so:/etc/traefik/dynamic/tracing-traefik.so"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
